@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block body %}   
+        <h1>Welcome to the Chat Application</h1>
+        {% if error %}
+        <p class=error><strong>Error:</strong> 
+            <span style="color: red;">{{ error }}</span>
+        </p>
+        {% endif %}
+        <a href="/register"><button type="button" class="btn btn-primary" aria-label="Left Align" >
+		  <span class="glyphicon glyphicon-off" aria-hidden="true"></span> Register
+        </button></a>
+        <a href="/login"><button type="button" class="btn btn-primary" aria-label="Left Align" >
+            <span class="glyphicon glyphicon-off" aria-hidden="true"></span> Login
+          </button></a>
+{% endblock %}

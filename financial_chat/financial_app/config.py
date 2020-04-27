@@ -9,9 +9,13 @@ class Config:
 
 
 class DevelopmentConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_DEV_URI", "sqlite:///data.db")
-    DEBUG = True
-    SQLALCHEMY_TRACK_MODIFICATIONS = True
+    POSTGRES_URL = os.getenv("POSTGRES_URL", "localhost")
+    POSTGRES_USER = os.getenv("POSTGRES_USER", "postgres")
+    POSTGRES_PW = os.getenv("POSTGRES_PW")
+    POSTGRES_DB = os.getenv("FINANCIAL_POSTGRES_DB", "financial_db")
+    SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://{user}:{pw}@{url}/{db}".format(
+        user=POSTGRES_USER, pw=POSTGRES_PW, url=POSTGRES_URL, db=POSTGRES_DB
+    )
 
 
 class StagingConfig(Config):
@@ -29,9 +33,14 @@ class StagingConfig(Config):
 class TestingConfig(Config):
     """Configurations for Testing, with a separate test database."""
 
-    TEST_DB = os.getenv("TEST_DB", "test.db")
-    SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(
-        basedir, "{db}".format(db=TEST_DB)
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    TESTING = True
+    POSTGRES_URL = os.getenv("POSTGRES_URL", "localhost")
+    POSTGRES_USER = os.getenv("POSTGRES_USER", "postgres")
+    POSTGRES_PW = os.getenv("POSTGRES_PW")
+    POSTGRES_DB = os.getenv("FINANCIAL_POSTGRES_DB", "test_db")
+    SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://{user}:{pw}@{url}/{db}".format(
+        user=POSTGRES_USER, pw=POSTGRES_PW, url=POSTGRES_URL, db=POSTGRES_DB
     )
     DEBUG = True
     TESTING = True

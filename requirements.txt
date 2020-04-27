@@ -1,0 +1,14 @@
+Flask
+Flask-SQLAlchemy
+Flask-SocketIO
+Flask-WTF
+Jinja2
+eventlet
+greenlet
+python-socketio
+python-engineio
+Werkzeug
+WTForms
+Flask-Testing
+Flask-Script==2.0.6
+Flask-Migrate==2.5.2

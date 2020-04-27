@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block title %}Register to the Chat Application{% endblock %}
+{% block body %}   
+        <h1>Register</h1>
+        {% if error %}
+        <p class=error><strong>Error:</strong> 
+            <span style="color: red;">{{ error }}</span>
+        </p>
+        {% endif %}
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.name.label }}: {{ form.name() }}
+            {% for error in form.name.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}<br>
+            {{ form.lastname.label }}: {{ form.lastname() }} 
+            {% for error in form.lastname.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}<br>
+            {{ form.username.label }}: {{ form.username() }} 
+            {% for error in form.username.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}<br>
+            {{ form.password.label }}: {{ form.password() }} 
+            {% for error in form.password.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}<br>
+            {{ form.confirm.label }}: {{ form.confirm() }} 
+            {% for error in form.confirm.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}<br>
+            {{ form.submit() }}
+        </form>
+        <a href="/"><button type="button" class="btn btn-primary" aria-label="Left Align" >
+            <span class="glyphicon glyphicon-off" aria-hidden="true"></span> Home
+          </button></a>
+{% endblock %}

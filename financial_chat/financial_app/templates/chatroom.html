@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block title %}Choose a Chat Room{% endblock %}
+{% block body %}   
+        <h1>Chat</h1>
+        {% if error %}
+        <p class=error><strong>Error:</strong> 
+            <span style="color: red;">{{ error }}</span>
+        </p>
+        {% endif %}
+        <form method="POST">
+            {{ form.hidden_tag() }}       
+            {{ form.chatroom.label }}: {{ form.chatroom() }} 
+            {% for error in form.chatroom.errors %}{{ error }}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}<br>
+            {{ form.submit() }}
+        </form>        
+{% endblock %}

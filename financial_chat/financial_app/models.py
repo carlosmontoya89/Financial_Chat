@@ -1,8 +1,11 @@
-from .extensions import db
+from flask_login import AnonymousUserMixin, UserMixin
 import datetime
 from werkzeug.security import check_password_hash, generate_password_hash
 
-class UserModel(db.Model):
+from .extensions import db, login_manager
+
+
+class UserModel(UserMixin,db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -25,12 +28,12 @@ class UserModel(db.Model):
             "name": self.name,
             "lastname": self.lastname,
             "username": self.username,
-            "created_at": self.created_at
+            "created_at": self.created_at,
         }
 
     @property
     def password(self):
-        raise AttributeError('`password` is not a readable attribute')
+        raise AttributeError("`password` is not a readable attribute")
 
     @password.setter
     def password(self, password):
@@ -41,12 +44,15 @@ class UserModel(db.Model):
 
     @classmethod
     def find_by_username(cls, username):
-        return cls.query.filter_by(name=name).first()
+        return cls.query.filter_by(username=username).first()
 
     @classmethod
     def find_by_id(cls, _id):
         return cls.query.filter_by(id=_id).first()
 
+@login_manager.user_loader
+def load_user(user_id):
+    return UserModel.query.get(int(user_id))
 
 class MessageModel(db.Model):
     __tablename__ = "messages"

@@ -2,9 +2,9 @@ import os
 import unittest
 from flask_script import Manager  # class for handling a set of commands
 from flask_migrate import Migrate, MigrateCommand
-from app import create_app
-from app.extensions import db
-from app import models
+from financial_app import create_app
+from financial_app.extensions import db
+from financial_app import models
 
 
 app = create_app(config_name=os.getenv("ENV", "dev"))

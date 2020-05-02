@@ -12,10 +12,12 @@ class DevelopmentConfig(Config):
     POSTGRES_URL = os.getenv("POSTGRES_URL", "localhost")
     POSTGRES_USER = os.getenv("POSTGRES_USER", "postgres")
     POSTGRES_PW = os.getenv("POSTGRES_PW")
-    POSTGRES_DB = os.getenv("FINANCIAL_POSTGRES_DB", "financial_db")
+    POSTGRES_DB = os.getenv("FINANCIAL_POSTGRES_DB", "financial_chat_db")
     SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://{user}:{pw}@{url}/{db}".format(
         user=POSTGRES_USER, pw=POSTGRES_PW, url=POSTGRES_URL, db=POSTGRES_DB
     )
+    DEBUG = True
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class StagingConfig(Config):
@@ -42,7 +44,7 @@ class TestingConfig(Config):
     SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://{user}:{pw}@{url}/{db}".format(
         user=POSTGRES_USER, pw=POSTGRES_PW, url=POSTGRES_URL, db=POSTGRES_DB
     )
-    DEBUG = True
+    # DEBUG = True
     TESTING = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 

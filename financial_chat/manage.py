@@ -2,7 +2,7 @@ import os
 import unittest
 from flask_script import Manager  # class for handling a set of commands
 from flask_migrate import Migrate, MigrateCommand
-from financial_app import create_app
+from financial_app import create_app, socketio
 from financial_app.extensions import db
 from financial_app import models
 
@@ -17,6 +17,7 @@ manager.add_command("db", MigrateCommand)
 
 @manager.command
 def runserver():
+    # socketio.run(app)
     app.run()
 
 

@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from .extensions import db, login_manager
 
 
-class UserModel(UserMixin,db.Model):
+class UserModel(UserMixin, db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -50,9 +50,11 @@ class UserModel(UserMixin,db.Model):
     def find_by_id(cls, _id):
         return cls.query.filter_by(id=_id).first()
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return UserModel.query.get(int(user_id))
+
 
 class MessageModel(db.Model):
     __tablename__ = "messages"
@@ -80,5 +82,5 @@ class MessageModel(db.Model):
         ordering = ["-created_at"]
 
     @classmethod
-    def find_by_name_id(cls, _name_id):
-        return cls.query.filter_by(name_id=_name_id).all()
+    def find_by_name_id(cls, _user_id):
+        return cls.query.filter_by(user_id=_user_id).all()

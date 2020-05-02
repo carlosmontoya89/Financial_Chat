@@ -4,9 +4,6 @@ from flask_login import LoginManager
 from flask_socketio import SocketIO
 
 
-
-
-
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()

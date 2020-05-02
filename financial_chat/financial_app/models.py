@@ -1,4 +1,4 @@
-from flask_login import AnonymousUserMixin, UserMixin
+from flask_login import UserMixin
 import datetime
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -63,15 +63,18 @@ class MessageModel(db.Model):
     content = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    chatroom_id = db.Column(db.Integer, db.ForeignKey("chatrooms.id"))
     origin = db.relationship("UserModel")
+    room = db.relationship("ChatRoomModel")
 
     def json(self):
         return {
             "id": self.id,
             "content": self.content,
-            "created_at": self.created_at,
+            "created_at": self.created_at.strftime("%Y-%m-%dT%H:%M:%SZ"),
             "user_id": self.user_id,
             "origin": self.origin.username if self.origin else None,
+            "room": self.room.name if self.room else None,
         }
 
     def save_to_db(self):
@@ -82,5 +85,40 @@ class MessageModel(db.Model):
         ordering = ["-created_at"]
 
     @classmethod
-    def find_by_name_id(cls, _user_id):
-        return cls.query.filter_by(user_id=_user_id).all()
+    def find_by_user_id_and_chat_room_id(cls, _user_id, _chatroom_id):
+        return (
+            cls.query.filter_by(user_id=_user_id, chatroom_id=_chatroom_id)
+            .order_by(cls.created_at.desc())
+            .limit(50)
+            .all()
+        )
+
+
+class ChatRoomModel(db.Model):
+    __tablename__ = "chatrooms"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    messages = db.relationship(
+        "MessageModel", lazy="dynamic", cascade="save-update, merge, delete"
+    )
+
+    def json(self):
+        return {
+            "id": self.id,
+            "name": self.content,
+            "created_at": self.created_at.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        }
+
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def find_by_id(cls, id):
+        return cls.query.filter_by(id=id).first()
+
+    @classmethod
+    def find_by_name(cls, name):
+        return cls.query.filter_by(name=name).first()

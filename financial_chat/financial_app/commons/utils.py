@@ -1,14 +1,14 @@
-from flask import Flask, session, redirect, url_for, render_template, request, flash
-from functools import wraps
+import functools
+from flask_login import current_user
+from flask_socketio import disconnect
 
 
-def login_required(f):
-    @wraps(f)
-    def wrap(*args, **kwargs):
-        if "logged_in" in session:
-            return f(*args, **kwargs)
+def socket_authenticated_required(f):
+    @functools.wraps(f)
+    def wrapped(*args, **kwargs):
+        if not current_user.is_authenticated:
+            disconnect()
         else:
-            flash("You need to login first")
-            return redirect(url_for("users.login"))
+            return f(*args, **kwargs)
 
-    return wrap
+    return wrapped

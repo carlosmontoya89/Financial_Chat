@@ -17,8 +17,8 @@ manager.add_command("db", MigrateCommand)
 
 @manager.command
 def runserver():
-    # socketio.run(app)
-    app.run()
+    socketio.run(app)
+    # app.run()
 
 
 @manager.command

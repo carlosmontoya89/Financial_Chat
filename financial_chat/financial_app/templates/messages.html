@@ -3,11 +3,11 @@
         <title>Chat Message History</title>
     </head>
     <body>
-        <h1>Message History of: {{ name }}</h1>
+        <h1>Message history of: {{ name }} in {{ chatroom }}</h1>
         <div id="history">
    	        {% for message in messages %}
-   	            {{message.content}} <br>
-            	----{{message.created_at}}---- <br>
+   	            message: {{message.json()["content"]}}
+            	----{{message.json()["created_at"]}}---- <br>
    	        
    	        {% endfor %}
         </div>

@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm as Form
-from wtforms.fields import StringField, PasswordField, SubmitField
-from wtforms.validators import Required, EqualTo, ValidationError, Length
+from wtforms.fields import StringField, SubmitField
+from wtforms.validators import Required
 
 
 class ChatRoomsForm(Form):
